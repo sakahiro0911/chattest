@@ -1,0 +1,6 @@
+Packages
+Build
+.build
+xcuserdata
+*.xcodeproj
+Config/*.json
