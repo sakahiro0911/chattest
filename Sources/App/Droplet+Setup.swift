@@ -32,10 +32,12 @@ extension Droplet {
                     username = u
                     room.connections[u] = ws
                     room.bot("\(u) has joined. 👋")
+                    print("\(u) has joined.")
                 }
                 
                 if let u = username, let m = json.object?["message"]?.string {
                     room.send(name: u, message: m)
+                    print("\(u) send \(m)")
                 }
             }
             
@@ -43,7 +45,7 @@ extension Droplet {
                 pingTimer?.cancel()
                 pingTimer = nil
 //                pingTimer.cancel()
-
+                print("onclose")
                 
                 guard let u = username else {
                     return
