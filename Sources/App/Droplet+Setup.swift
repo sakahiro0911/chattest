@@ -30,13 +30,54 @@ extension Droplet {
                 
                 if let u = json.object?["username"]?.string {
                     username = u
-                    room.connections[u] = ws
-                    room.bot("\(u) has joined. 👋")
+                    
+                    let message = "\(u) has joined. 👋".truncated(to: 256)
+                    let messageNode: [String: NodeRepresentable] = [
+                        "username": u,
+                        "message": message
+                    ]
+                    guard let json = try? JSON(node: messageNode) else {
+                        return
+                    }
+                    try? ws.send(json)
+//                    for (username, socket) in connections {
+//                        guard username != name else {
+//                            continue
+//                        }
+//                        try? socket.send(json)
+//                    }
+                    
+                    
+                    
+                   
+                    
+                    
+                    
+//                    room.connections[u] = ws
+//                    room.bot("\(u) has joined. 👋")
                     print("\(u) has joined.")
                 }
                 
                 if let u = username, let m = json.object?["message"]?.string {
-                    room.send(name: u, message: m)
+                    let message = m.truncated(to: 256)
+                    let messageNode: [String: NodeRepresentable] = [
+                        "username": u,
+                        "message": message
+                    ]
+                    guard let json = try? JSON(node: messageNode) else {
+                        return
+                    }
+                    try? ws.send(json)
+                    //                    for (username, socket) in connections {
+                    //                        guard username != name else {
+                    //                            continue
+                    //                        }
+                    //                        try? socket.send(json)
+                    //                    }
+                    
+                    
+                    
+//                    room.send(name: u, message: m)
                     print("\(u) send \(m)")
                 }
             }
@@ -51,8 +92,22 @@ extension Droplet {
                     return
                 }
                 
-                room.bot("\(u) has left")
-                room.connections.removeValue(forKey: u)
+                
+                let message = "\(u) has left. 👋".truncated(to: 256)
+                let messageNode: [String: NodeRepresentable] = [
+                    "username": u,
+                    "message": message
+                ]
+                guard let json = try? JSON(node: messageNode) else {
+                    return
+                }
+                try? ws.send(json)
+                print("\(u) has left.")
+                
+                
+                
+//                room.bot("\(u) has left")
+//                room.connections.removeValue(forKey: u)
             }
         }
     }
